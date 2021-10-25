@@ -65,10 +65,14 @@
  */
 
 terraform {
-  required_version = ">= 0.12"
   required_providers {
-    aws = "~> 2.0"
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.63.0, < 4.0.0"
+    }
   }
+
+  required_version = ">= 1.0.9"
 }
 
 locals {
@@ -76,7 +80,7 @@ locals {
 }
 
 module "base_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -87,7 +91,7 @@ module "base_label" {
 }
 
 module "task_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -98,7 +102,7 @@ module "task_label" {
 }
 
 module "exec_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -109,7 +113,7 @@ module "exec_label" {
 }
 
 module "cloudwatch_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -120,7 +124,7 @@ module "cloudwatch_label" {
 }
 
 module "event_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -131,7 +135,7 @@ module "event_label" {
 }
 
 module "log_group_label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.25.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -145,7 +149,7 @@ module "log_group_label" {
 ###########
 
 module "vpc" {
-  source      = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.10.0"
+  source      = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.28.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
@@ -160,7 +164,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.19.0"
+  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.39.7"
   availability_zones   = var.availability_zones
   namespace            = var.namespace
   stage                = var.stage
@@ -242,7 +246,7 @@ resource "aws_ecs_cluster" "default" {
 }
 
 module "container_definition" {
-  source                       = "git::https://github.com/cloudposse/terraform-aws-ecs-container-definition.git?ref=tags/0.23.0"
+  source                       = "git::https://github.com/cloudposse/terraform-aws-ecs-container-definition.git?ref=tags/0.58.1"
   container_name               = module.base_label.id
   command                      = var.command
   container_image              = "${aws_ecr_repository.default.repository_url}:latest"
