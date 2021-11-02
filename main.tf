@@ -174,8 +174,8 @@ module "subnets" {
   vpc_id               = module.vpc.vpc_id
   igw_id               = module.vpc.igw_id
   cidr_block           = module.vpc.vpc_cidr_block
-  nat_gateway_enabled  = var.nat_gateway_enabled
-  nat_instance_enabled = ! var.nat_gateway_enabled
+  # nat_gateway_enabled  = var.nat_gateway_enabled
+  # nat_instance_enabled = ! var.nat_gateway_enabled
   tags                 = module.base_label.tags
 }
 
@@ -230,9 +230,9 @@ resource "aws_cloudwatch_event_target" "default" {
     task_definition_arn = aws_ecs_task_definition.default.arn
     platform_version    = "LATEST"
     network_configuration {
-      assign_public_ip = false
+      assign_public_ip = true
       security_groups  = [module.vpc.vpc_default_security_group_id]
-      subnets          = module.subnets.private_subnet_ids
+      subnets          = module.subnets.public_subnet_ids
     }
   }
 }
