@@ -149,7 +149,7 @@ module "log_group_label" {
 ###########
 
 module "vpc" {
-  source      = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.28.0"
+  source      = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/2.0.0"
   namespace   = var.namespace
   stage       = var.stage
   name        = var.name
